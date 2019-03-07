@@ -171,7 +171,7 @@ namespace osu.Framework.Graphics.Lines
             n.Texture = Texture;
             n.TextureShader = textureShader;
             n.RoundedTextureShader = roundedTextureShader;
-            n.Width = PathWidth;
+            n.Radius = PathWidth;
             n.DrawSize = DrawSize;
 
             n.Segments = segments.ToList();
