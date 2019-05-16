@@ -21,6 +21,7 @@ namespace osu.Framework.Tests.Platform
             var fileStream = resources.GetStream("Resources.Tracks.sample-track.mp3");
             Bass.Init();
             var fileCallbacks = new FileCallbacks(new DataStreamFileProcedures(fileStream));
+            activeStream = Bass.CreateStream(StreamSystem.NoBuffer, BassFlags.Prescan, fileCallbacks.Callbacks, fileCallbacks.Handle);
 
             Bass.ChannelSetAttribute(activeStream, ChannelAttribute.ReverseDirection, 1);
         }
