@@ -112,9 +112,6 @@ namespace osu.Framework.Tests.Visual.Drawables
 
             AddStep("create waveform", () => waveformContainer.Child = graph = new TestWaveform(track, resolution) { Waveform = waveform });
             AddUntilStep("wait for load", () => graph.ResampledWaveform != null);
-            AddUntilStep("Wait for track to load", () => track.IsLoaded);
-            AddStep("Seek to 1 second", () => track.Seek(1000));
-            AddAssert("Track seek was successful", () => track.CurrentTime == 1000);
         }
 
         [Test]
