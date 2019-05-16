@@ -35,6 +35,7 @@ namespace osu.Framework.Tests.Visual.Platform
         {
             AddUntilStep("Wait for track to load", () => track.IsLoaded);
             AddStep("Seek to 1 second", () => track.Seek(1000));
+            AddAssert("Track seek was successful", () => track.CurrentTime == 1000);
         }
 
         /// <summary>
@@ -49,7 +50,7 @@ namespace osu.Framework.Tests.Visual.Platform
 
         /// <summary>
         /// Bass restarts the track from the beginning if Start is called when the track has been completed.
-        /// This is blocked locally in <see cref="TrackBass"/>, so this test expects the track to not restart.
+        /// This is blocked locally in <see cref="TrackBass.StartAsync"/>, so this test expects the track to not restart.
         /// </summary>
         [Test]
         public void TestTrackPlaybackBlocksAtTrackEnd()
