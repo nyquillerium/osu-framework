@@ -19,7 +19,7 @@ namespace osu.Framework.Tests.Platform
         {
             var resources = new DllResourceStore("osu.Framework.Tests.dll");
             var fileStream = resources.GetStream("Resources.Tracks.sample-track.mp3");
-            Bass.Init();
+            Bass.Init(0);
             Logger.Log("Error: " + Bass.LastError);
             var fileCallbacks = new FileCallbacks(new DataStreamFileProcedures(fileStream));
             activeStream = Bass.CreateStream(StreamSystem.NoBuffer, BassFlags.Prescan, fileCallbacks.Callbacks, fileCallbacks.Handle);
