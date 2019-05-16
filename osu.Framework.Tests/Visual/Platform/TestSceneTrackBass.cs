@@ -33,9 +33,8 @@ namespace osu.Framework.Tests.Visual.Platform
         [SetUpSteps]
         public void SetUpSteps()
         {
+            AddUntilStep("Wait for track to load", () => track.IsLoaded);
             AddStep("Seek to 1 second", () => track.Seek(1000));
-            AddWaitStep("wait for seek", 5);
-            AddAssert("Initial seek was successful", () => track.CurrentTime == 1000);
         }
 
         /// <summary>
@@ -45,7 +44,6 @@ namespace osu.Framework.Tests.Visual.Platform
         public void TestTrackSeekingToEndFails()
         {
             AddStep("Attempt to seek to the end of the track", () => track.Seek(track.Length));
-            AddWaitStep("wait for seek", 5);
             AddAssert("Track did not seek", () => track.CurrentTime == 1000);
         }
 
@@ -57,11 +55,9 @@ namespace osu.Framework.Tests.Visual.Platform
         public void TestTrackPlaybackBlocksAtTrackEnd()
         {
             AddStep("Seek to right before end of track", () => track.Seek(track.Length - 1));
-            AddWaitStep("wait for seek", 5);
             AddStep("Play", () => track.Start());
             AddUntilStep("Track stopped playing", () => !track.IsRunning);
             AddStep("Start track again", () => track.Start());
-            AddWaitStep("wait for seek", 5);
             AddAssert("Track did not restart", () => track.CurrentTime == track.Length);
         }
     }
