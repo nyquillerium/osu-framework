@@ -20,10 +20,13 @@ namespace osu.Framework.Tests.Platform
             var resources = new DllResourceStore("osu.Framework.Tests.dll");
             var fileStream = resources.GetStream("Resources.Tracks.sample-track.mp3");
             Bass.Init();
+            Logger.Log("Error: " + Bass.LastError);
             var fileCallbacks = new FileCallbacks(new DataStreamFileProcedures(fileStream));
             activeStream = Bass.CreateStream(StreamSystem.NoBuffer, BassFlags.Prescan, fileCallbacks.Callbacks, fileCallbacks.Handle);
+            Logger.Log("Error: " + Bass.LastError);
 
             Bass.ChannelSetAttribute(activeStream, ChannelAttribute.ReverseDirection, 1);
+            Logger.Log("Error: " + Bass.LastError);
         }
 
         [SetUp]
@@ -31,7 +34,7 @@ namespace osu.Framework.Tests.Platform
         {
             // Initialize position at 4, to differentiate from a track's initial position of 0.
             Bass.ChannelSetPosition(activeStream, 4);
-            Assert.IsTrue(Bass.ChannelGetPosition(activeStream) == 4);
+            Logger.Log("Error: " + Bass.LastError);
         }
 
         [Test]
