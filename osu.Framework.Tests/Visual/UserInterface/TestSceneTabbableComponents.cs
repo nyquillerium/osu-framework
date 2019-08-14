@@ -1,6 +1,7 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
+using System.Collections.Generic;
 using NUnit.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
@@ -20,6 +21,7 @@ namespace osu.Framework.Tests.Visual.UserInterface
         private BasicTextBox text1;
         private BasicTextBox text2;
         private BasicTextBox text4;
+        private BasicDropdown<string> dropdown;
 
         [BackgroundDependencyLoader]
         private void load()
@@ -33,7 +35,7 @@ namespace osu.Framework.Tests.Visual.UserInterface
                     Direction = FillDirection.Vertical,
                     Padding = new MarginPadding(20),
                     Spacing = new Vector2(20),
-                    Children = new[]
+                    Children = new CompositeDrawable[]
                     {
                         text1 = new BasicTextBox
                         {
@@ -60,6 +62,11 @@ namespace osu.Framework.Tests.Visual.UserInterface
                             Width = component_width,
                             Height = component_height,
                             Text = "Just another normal textbox",
+                        },
+                        dropdown = new BasicDropdown<string>
+                        {
+                            Width = component_width,
+                            Items = new List<string> { "I'm a dropdown item!" },
                         }
                     }
                 }
@@ -101,9 +108,15 @@ namespace osu.Framework.Tests.Visual.UserInterface
         }
 
         [Test]
-        public void TestWrappingTabTest()
+        public void TestTabToDropdown()
         {
-            performTabToTest(text4, text1);
+            performTabToTest(text4, dropdown.Menu);
+        }
+
+        [Test]
+        public void TestTabWrapping()
+        {
+            performTabToTest(dropdown, text1);
         }
 
         [Test]

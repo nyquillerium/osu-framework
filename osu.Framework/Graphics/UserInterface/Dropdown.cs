@@ -10,6 +10,7 @@ using osu.Framework.Graphics.Containers;
 using osuTK.Graphics;
 using osu.Framework.Extensions.IEnumerableExtensions;
 using osu.Framework.Graphics.Sprites;
+using osu.Framework.Input.Events;
 
 namespace osu.Framework.Graphics.UserInterface
 {
@@ -17,7 +18,7 @@ namespace osu.Framework.Graphics.UserInterface
     /// A drop-down menu to select from a group of values.
     /// </summary>
     /// <typeparam name="T">Type of value to select.</typeparam>
-    public abstract class Dropdown<T> : CompositeDrawable, IHasCurrentValue<T>
+    public abstract class Dropdown<T> : CompositeDrawable, ITabbableContainer, IHasCurrentValue<T>
     {
         protected internal DropdownHeader Header;
         protected internal DropdownMenu Menu;
@@ -33,6 +34,10 @@ namespace osu.Framework.Graphics.UserInterface
         private readonly Dictionary<T, DropdownMenuItem<T>> itemMap = new Dictionary<T, DropdownMenuItem<T>>();
 
         protected IEnumerable<DropdownMenuItem<T>> MenuItems => itemMap.Values;
+
+        public bool CanBeTabbedTo => true;
+
+        public override bool AcceptsFocus => true;
 
         /// <summary>
         /// Enumerate all values in the dropdown.
@@ -295,6 +300,12 @@ namespace osu.Framework.Graphics.UserInterface
         /// Creates the menu body.
         /// </summary>
         protected abstract DropdownMenu CreateMenu();
+
+        protected override void OnFocus(FocusEvent e)
+        {
+            Menu.State = MenuState.Open;
+            base.OnFocus(e);
+        }
 
         #region DropdownMenu
 
